@@ -1,0 +1,19 @@
+package com.project.tour.user.mypage;
+
+import lombok.Data;
+
+@Data()
+public class MyPageDTO {
+	
+	private String seq;
+	private String name;
+	private String address;
+	private String open;
+	private String close;
+	private String fcseq;
+	private String cseq;
+	private String image;
+
+	
+	private String category;
+}

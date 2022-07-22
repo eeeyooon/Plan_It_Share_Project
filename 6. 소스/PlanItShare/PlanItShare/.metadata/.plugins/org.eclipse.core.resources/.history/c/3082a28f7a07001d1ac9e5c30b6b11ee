@@ -1,0 +1,42 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Plan It Share</title>
+<%@ include file="/WEB-INF/views/inc/asset.jsp" %>
+<style>
+header {
+	background-color : none;
+}
+
+element.style {
+    display: flex;
+}
+
+</style>
+</head>
+<body>
+	<main>
+		<%@ include file="/WEB-INF/views/inc/header.jsp" %>
+		<section>
+		<div>
+			어쩌구gggggg
+			<button type='button'>button</button>
+		</div>
+			
+			<div><img src="/planitshare/asset/image/main.jpg"></div>
+			
+		</section>
+	
+	</main>
+
+
+	<script>
+	
+	</script>
+
+
+</body>
+</html>

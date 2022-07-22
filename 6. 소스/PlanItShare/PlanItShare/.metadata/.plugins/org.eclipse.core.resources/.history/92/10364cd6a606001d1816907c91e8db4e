@@ -1,0 +1,83 @@
+package com.project.tour.user.mypage;
+
+import java.io.IOException;
+import java.util.ArrayList;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet("/mypage/MyLikePlace.do")
+public class MyLikePlace extends HttpServlet {
+
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
+		
+		// 음식점 관심목록 fList.java
+		// 1. DB작업
+		// 2. 결과
+		// 3. JSP 호출 및 결과 전달
+		
+		//1. + 2.
+		MyPageDAO dao = new MyPageDAO();
+		
+		// 식당
+		ArrayList<MyPageDTO> fList = dao.fList();
+		// 관광지
+		ArrayList<MyPageDTO> tList = dao.tList();
+		// 숙소
+		ArrayList<MyPageDTO> lList = dao.lList();
+		
+		// 식당
+		req.setAttribute("fList", fList);
+		
+		// 관광지
+		req.setAttribute("tList", tList);
+		
+		// 숙소
+		req.setAttribute("lList", lList);
+		
+		RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/views/user/mypage/mylikeplace.jsp");
+
+		dispatcher.forward(req, resp);
+		
+		
+		String distint = "food";
+		int page = 1;
+		
+		if (req.getParameter("distint") != null) {
+			distint = req.getParameter("distint");
+		}
+		
+		if (req.getParameter("page") != null) {
+			page = Integer.parseInt(req.getParameter("page"));
+		}
+		
+		
+		if (distint.equals("food")) { //음식점일 경우
+			req.setAttribute("distint", "food");
+		}else if (distint.equals("tour")) { // 관광명소일 경우
+			req.setAttribute("distint", "tour");
+		}else { // 숙소일 경우
+			req.setAttribute("distint", "lodging");
+		}
+		
+		
+		
+		
+		
+		
+		
+
+	}
+
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+	}
+
+}

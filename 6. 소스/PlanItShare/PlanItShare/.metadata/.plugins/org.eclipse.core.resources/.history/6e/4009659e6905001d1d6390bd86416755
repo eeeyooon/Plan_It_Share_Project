@@ -1,0 +1,20 @@
+package com.project.tour.city.cityplan;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
+import com.project.tour.DBUtil;
+
+public class CityPlanDAO {
+
+	Connection conn = null;
+	PreparedStatement pstmt = null;
+	Statement stmt = null;
+	ResultSet rs = null;
+
+	public CityPlanDAO() {
+		conn = DBUtil.open();
+	}
+}

@@ -1,0 +1,49 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Plan It Share</title>
+<%@ include file="/WEB-INF/views/inc/asset.jsp" %>
+<style>
+	section {
+      display: flex;
+   }
+
+   #admin-submenu {
+      width: 200px;
+      height: 300px;
+      margin-right: 50px;
+      margin-top: 100px;
+   }
+   
+   #admin-submenu li {
+      list-style: none;
+      margin-bottom: 15px;
+      font-size: 23px;
+      font-weight: bold;
+   }
+	
+</style>
+</head>
+<body>
+	
+	
+	<main>
+		<%@ include file="/WEB-INF/views/inc/header.jsp" %>
+		<section>
+			<%@ include file="/WEB-INF/views/inc/adminsubmenu.jsp" %>
+		</section>
+	
+	</main>
+
+
+	<script>
+	
+	</script>
+
+
+</body>
+</html>

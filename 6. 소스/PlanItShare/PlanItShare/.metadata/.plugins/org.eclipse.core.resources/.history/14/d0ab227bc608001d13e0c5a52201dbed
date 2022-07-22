@@ -1,0 +1,313 @@
+package com.project.tour.plan;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import com.project.tour.DBUtil;
+import com.project.tour.dto.LodgingDTO;
+import com.project.tour.dto.PlanDTO;
+
+public class PlanDAO {
+
+	Connection conn = null;
+	PreparedStatement pstat = null;
+	Statement stat = null;
+	ResultSet rs = null;
+	
+	public PlanDAO() {
+		conn = DBUtil.open();
+	}
+	
+	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~서영 DAO 시작~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+	/**
+	 * 
+	 * 일정을 관심등록순으로 출력하기 위한 메소드
+	 * 
+	 * @author 백서영
+	 * @return ArrayList<PlanDTO>
+	 */
+	public ArrayList<PlanDTO> getlist() {
+		try {
+			String sql = "select * from vwSPlan where rownum <= 9";
+			
+			stat = conn.createStatement();
+			
+			rs = stat.executeQuery(sql);
+			
+			ArrayList<PlanDTO> list = new ArrayList<PlanDTO>();
+			
+			while (rs.next()) {
+				PlanDTO dto = new PlanDTO();
+				dto.setSeq(rs.getString("seq"));
+				dto.setCseq(rs.getString("cseq"));
+				dto.setRegdate(rs.getString("regdate"));
+				dto.setReadCount(rs.getString("readcount"));
+				dto.setStartDate(rs.getString("startdate"));
+				dto.setEndDate(rs.getString("enddate"));
+				dto.setTitle(rs.getString("title"));
+				dto.setContent(rs.getString("content"));
+				dto.setAuthor(rs.getString("author"));
+				dto.setName(rs.getString("name"));
+				dto.setImage(rs.getString("image"));
+				dto.setLikecnt(rs.getString("likecnt"));
+				dto.setReviewcnt(rs.getString("reviewcnt"));
+				
+				list.add(dto);
+						
+			}
+			
+			return list;
+
+		} catch (Exception e) {
+			System.out.println("PlanDAO.getlist");
+			e.printStackTrace();
+
+		}
+		return null;
+	}
+
+	/**
+	 * 
+	 * 
+	 * 
+	 * @param map
+	 * @return ArrayList<LodgingDTO>
+	 */
+	public ArrayList<PlanDTO> planSearch(HashMap<String, String> map) {
+		try {
+			
+			String where = "";
+						
+				if (map.get("isSearch").equals("y")) {
+					where = " where " + map.get("column")  + " like " + "\'%" + map.get("word") + "%\'";
+
+				}
+			
+				
+			String sql = "select \r\n"
+					+ "    p.seq,\r\n"
+					+ "    p.cseq,\r\n"
+					+ "    p.regdate,\r\n"
+					+ "    p.readcount,\r\n"
+					+ "    p.startdate,\r\n"
+					+ "    p.enddate,\r\n"
+					+ "    p.title,\r\n"
+					+ "    p.content,\r\n"
+					+ "    p.author,\r\n"
+					+ "    c.name,\r\n"
+					+ "    c.image,\r\n"
+					+ "    (select count(*) from tblLikePlan lp where lp.pseq = p.seq) as likecnt,\r\n"
+					+ "	   (select count(*) from tblComment c where c.pseq = p.seq) as reviewcnt\r\n"
+					+ "from tblPlan p inner join tblCity c on p.cseq = c.seq " + where +" order by seq desc ";
+			
+			stat = conn.createStatement();
+			
+			rs = stat.executeQuery(sql);
+			
+			ArrayList<PlanDTO> list = new ArrayList<PlanDTO>();
+			
+			while (rs.next()) {
+				PlanDTO dto = new PlanDTO();
+				dto.setSeq(rs.getString("seq"));
+				dto.setCseq(rs.getString("cseq"));
+				dto.setRegdate(rs.getString("regdate"));
+				dto.setReadCount(rs.getString("readcount"));
+				dto.setStartDate(rs.getString("startdate"));
+				dto.setEndDate(rs.getString("enddate"));
+				dto.setTitle(rs.getString("title"));
+				dto.setContent(rs.getString("content"));
+				dto.setAuthor(rs.getString("author"));
+				dto.setName(rs.getString("name"));
+				dto.setImage(rs.getString("image"));
+				dto.setLikecnt(rs.getString("likecnt"));
+				dto.setReviewcnt(rs.getString("reviewcnt"));
+				
+				list.add(dto);
+			}
+			
+			return list;
+			
+		} catch (Exception e) {
+			System.out.println("PlanDAO.planSearch");
+			e.printStackTrace();
+
+		}
+		return null;
+	}
+
+	public int getTotalCount(HashMap<String, String> map) {
+		try {
+			
+			String where = "";
+			
+			if (map.get("isSearch").equals("y")) {
+				where = " where " + map.get("column")  + " like " + "\'%" + map.get("word") + "%\'";
+
+			}
+			
+			String sql = "select count(*) as cnt from tblPlan" + where;
+		
+			
+			stat = conn.createStatement();
+			
+			rs = stat.executeQuery(sql);
+			
+			while (rs.next()) {
+				
+				return rs.getInt("cnt");
+				
+			}
+			
+			
+		} catch (Exception e) {
+			System.out.println("PlanDAO.getTotalCount");
+			e.printStackTrace();
+
+		}
+		return 0;
+	}
+	
+	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~서영 DAO 끝~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	
+	public PlanDTO getPlan(String seq) {
+		try {
+			
+			String sql = "select p.*, (select count(*) from tblLikePlan lp where p.seq = lp.pseq) as likecnt, (select profile from tblUser u where u.id = p.author) as author_profile, c.name from tblPlan p inner join tblCity c on p.cseq = c.seq where p.seq = ?";
+			pstat = conn.prepareStatement(sql);
+			pstat.setString(1, seq);
+			rs = pstat.executeQuery();
+
+			PlanDTO dto = new PlanDTO();
+			
+			if (rs.next()) {
+				
+				dto.setSeq(rs.getString("seq"));
+				dto.setCseq(rs.getString("cseq"));
+				dto.setRegdate(rs.getString("regdate"));
+				dto.setReadcount(rs.getString("readcount"));
+				dto.setStartdate(rs.getString("startdate"));
+				dto.setEnddate(rs.getString("enddate"));
+				dto.setTitle(rs.getString("title"));
+				dto.setContent(rs.getString("content"));
+				dto.setAuthor(rs.getString("author"));
+				dto.setLikeCnt(rs.getString("likecnt"));
+				dto.setAuthorProfile(rs.getString("author_profile"));
+				dto.setCity(rs.getString("name"));
+			}
+			
+			return dto;
+			
+		} catch (Exception e) {
+			System.out.println("PlanDAO.getPlan");
+			e.printStackTrace();
+		} 
+		return null;
+	}
+	
+
+	public void addFoodPlace(String seq, ArrayList<PlaceDTO> list) {
+		
+		try {
+			
+			String sql = "select d.day, df.regdate, f.name, f.address, f.image, f.open, f.close, f.lat, f.lng, fc.category from tblDaily d inner join tblDailyFood df on df.dseq = d.seq inner join tblFood f on df.fseq = f.seq inner join tblFoodCategory fc on f.fcseq =fc.seq where pseq = ?";
+			pstat = conn.prepareStatement(sql);
+			pstat.setString(1, seq);
+			rs = pstat.executeQuery();
+
+			while(rs.next()) {
+				
+				PlaceDTO dto = new PlaceDTO();
+				
+				dto.setDay(rs.getString("day"));
+				dto.setRegdate(rs.getString("regdate"));
+				dto.setName(rs.getString("name"));
+				dto.setAddress(rs.getString("address"));
+				dto.setImage(rs.getString("image"));
+				dto.setOpen(rs.getString("open"));
+				dto.setClose(rs.getString("close"));
+				dto.setLat(rs.getString("lat"));
+				dto.setLng(rs.getString("lng"));
+				dto.setCategory(rs.getString("category"));
+				
+				list.add(dto);
+			}
+			
+		} catch (Exception e) {
+			System.out.println("PlanDAO.addFoodPlace");
+			e.printStackTrace();
+		} 
+	}
+	
+	public void addTourPlace(String seq, ArrayList<PlaceDTO> list) {
+		
+		try {
+			
+			
+			String sql = "select d.day, dt.regdate, t.placename, t.address, t.image, t.open, t.close, t.lat, t.lng, tc.category from tblDaily d inner join tblDailyTour dt on dt.dseq = d.seq inner join tblTour t on dt.tseq = t.seq inner join tblTourCategory tc on t.tcseq =tc.seq where pseq = ?";
+			pstat = conn.prepareStatement(sql);
+			pstat.setString(1, seq);
+			rs = pstat.executeQuery();
+			
+			while(rs.next()) {
+				
+				PlaceDTO dto = new PlaceDTO();
+				
+				dto.setDay(rs.getString("day"));
+				dto.setRegdate(rs.getString("regdate"));
+				dto.setName(rs.getString("placename"));
+				dto.setAddress(rs.getString("address"));
+				dto.setImage(rs.getString("image"));
+				dto.setOpen(rs.getString("open"));
+				dto.setClose(rs.getString("close"));
+				dto.setLat(rs.getString("lat"));
+				dto.setLng(rs.getString("lng"));
+				dto.setCategory(rs.getString("category"));
+				
+				list.add(dto);
+			}
+			
+		} catch (Exception e) {
+			System.out.println("PlanDAO.addTourPlace");
+			e.printStackTrace();
+		} 
+	}
+	
+	public void addLodgingPlace(String seq, ArrayList<PlaceDTO> list) {
+		
+		try {
+			
+			
+			String sql = "select d.day, dl.regdate, l.name, l.address, l.image, l.checkin, l.checkout, l.lat, l.lng, lc.category from tblDaily d inner join tblDailyLodging dl on dl.dseq = d.seq inner join tblLodging l on dl.lseq = l.seq inner join tblLodgingCategory lc on l.lcseq =lc.seq where pseq = ?";
+			pstat = conn.prepareStatement(sql);
+			pstat.setString(1, seq);
+			rs = pstat.executeQuery();
+			
+			while(rs.next()) {
+				
+				PlaceDTO dto = new PlaceDTO();
+				
+				dto.setDay(rs.getString("day"));
+				dto.setRegdate(rs.getString("regdate"));
+				dto.setName(rs.getString("name"));
+				dto.setAddress(rs.getString("address"));
+				dto.setImage(rs.getString("image"));
+				dto.setOpen(rs.getString("checkIn"));
+				dto.setClose(rs.getString("checkOut"));
+				dto.setLat(rs.getString("lat"));
+				dto.setLng(rs.getString("lng"));
+				dto.setCategory(rs.getString("category"));
+				
+				list.add(dto);
+			}
+			
+		} catch (Exception e) {
+			System.out.println("PlanDAO.addLodgingPlace");
+			e.printStackTrace();
+		} 
+	}
+}

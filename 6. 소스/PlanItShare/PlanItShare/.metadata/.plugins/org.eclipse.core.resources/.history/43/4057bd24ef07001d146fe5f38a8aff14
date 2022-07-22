@@ -1,0 +1,88 @@
+package com.project.tour.city.cityplan;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import com.project.tour.dto.CityDTO;
+
+public class CityPlanDAO {
+	
+	Connection conn;
+	PreparedStatement pstat;
+	Statement stat;
+	ResultSet rs;
+	
+	// 서블릿에서 제주일정 목록 받아오기
+	public ArrayList<CityDTO> jList(HashMap<String, String> map) {
+
+		
+		try {
+			
+			String sql = String.format("");
+			
+			pstat = conn.prepareStatement(sql);
+			
+			pstat.setString(1, map.get("begin"));
+			pstat.setString(2, map.get("end"));
+			
+			stat = conn.createStatement();
+			
+			rs = pstat.executeQuery();
+			
+			ArrayList<CityDTO> jList = new ArrayList<CityDTO>();
+			
+			while (rs.next()) {
+				
+				CityDTO dto = new CityDTO();
+				
+				//dto목록 적기
+				
+				
+				
+				
+				
+				
+				jList.add(dto);
+				
+				
+			}
+			
+			
+			
+			return jList;
+			
+			
+		
+			
+			
+		} catch (Exception e) {
+			System.out.println("CityPlanDAO.jList");
+			e.printStackTrace();
+
+		}
+		
+		
+		
+		
+		
+		
+		return null;
+		
+	}// jList
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+}// class

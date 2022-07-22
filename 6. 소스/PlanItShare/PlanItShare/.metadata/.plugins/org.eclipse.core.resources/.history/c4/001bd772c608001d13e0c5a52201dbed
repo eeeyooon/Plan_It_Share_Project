@@ -1,0 +1,177 @@
+package com.project.tour.plan;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import com.project.tour.DBUtil;
+import com.project.tour.dto.LodgingDTO;
+import com.project.tour.dto.PlanDTO;
+
+public class PlanDAO {
+
+	Connection conn = null;
+	PreparedStatement pstat = null;
+	Statement stat = null;
+	ResultSet rs = null;
+	
+	public PlanDAO() {
+		conn = DBUtil.open();
+	}
+	
+	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~서영 DAO 시작~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+	/**
+	 * 
+	 * 일정을 관심등록순으로 출력하기 위한 메소드
+	 * 
+	 * @author 백서영
+	 * @return ArrayList<PlanDTO>
+	 */
+	public ArrayList<PlanDTO> getlist() {
+		try {
+			String sql = "select * from vwSPlan where rownum <= 9";
+			
+			stat = conn.createStatement();
+			
+			rs = stat.executeQuery(sql);
+			
+			ArrayList<PlanDTO> list = new ArrayList<PlanDTO>();
+			
+			while (rs.next()) {
+				PlanDTO dto = new PlanDTO();
+				dto.setSeq(rs.getString("seq"));
+				dto.setCseq(rs.getString("cseq"));
+				dto.setRegdate(rs.getString("regdate"));
+				dto.setReadCount(rs.getString("readcount"));
+				dto.setStartDate(rs.getString("startdate"));
+				dto.setEndDate(rs.getString("enddate"));
+				dto.setTitle(rs.getString("title"));
+				dto.setContent(rs.getString("content"));
+				dto.setAuthor(rs.getString("author"));
+				dto.setName(rs.getString("name"));
+				dto.setImage(rs.getString("image"));
+				dto.setLikecnt(rs.getString("likecnt"));
+				dto.setReviewcnt(rs.getString("reviewcnt"));
+				
+				list.add(dto);
+						
+			}
+			
+			return list;
+
+		} catch (Exception e) {
+			System.out.println("PlanDAO.getlist");
+			e.printStackTrace();
+
+		}
+		return null;
+	}
+
+	/**
+	 * 
+	 * 
+	 * 
+	 * @param map
+	 * @return ArrayList<LodgingDTO>
+	 */
+	public ArrayList<PlanDTO> planSearch(HashMap<String, String> map) {
+		try {
+			
+			String where = "";
+						
+				if (map.get("isSearch").equals("y")) {
+					where = " where " + map.get("column")  + " like " + "\'%" + map.get("word") + "%\'";
+
+				}
+			
+				
+			String sql = "select \r\n"
+					+ "    p.seq,\r\n"
+					+ "    p.cseq,\r\n"
+					+ "    p.regdate,\r\n"
+					+ "    p.readcount,\r\n"
+					+ "    p.startdate,\r\n"
+					+ "    p.enddate,\r\n"
+					+ "    p.title,\r\n"
+					+ "    p.content,\r\n"
+					+ "    p.author,\r\n"
+					+ "    c.name,\r\n"
+					+ "    c.image,\r\n"
+					+ "    (select count(*) from tblLikePlan lp where lp.pseq = p.seq) as likecnt,\r\n"
+					+ "	   (select count(*) from tblComment c where c.pseq = p.seq) as reviewcnt\r\n"
+					+ "from tblPlan p inner join tblCity c on p.cseq = c.seq " + where +" order by seq desc ";
+			
+			stat = conn.createStatement();
+			
+			rs = stat.executeQuery(sql);
+			
+			ArrayList<PlanDTO> list = new ArrayList<PlanDTO>();
+			
+			while (rs.next()) {
+				PlanDTO dto = new PlanDTO();
+				dto.setSeq(rs.getString("seq"));
+				dto.setCseq(rs.getString("cseq"));
+				dto.setRegdate(rs.getString("regdate"));
+				dto.setReadCount(rs.getString("readcount"));
+				dto.setStartDate(rs.getString("startdate"));
+				dto.setEndDate(rs.getString("enddate"));
+				dto.setTitle(rs.getString("title"));
+				dto.setContent(rs.getString("content"));
+				dto.setAuthor(rs.getString("author"));
+				dto.setName(rs.getString("name"));
+				dto.setImage(rs.getString("image"));
+				dto.setLikecnt(rs.getString("likecnt"));
+				dto.setReviewcnt(rs.getString("reviewcnt"));
+				
+				list.add(dto);
+			}
+			
+			return list;
+			
+		} catch (Exception e) {
+			System.out.println("PlanDAO.planSearch");
+			e.printStackTrace();
+
+		}
+		return null;
+	}
+
+	public int getTotalCount(HashMap<String, String> map) {
+		try {
+			
+			String where = "";
+			
+			if (map.get("isSearch").equals("y")) {
+				where = " where " + map.get("column")  + " like " + "\'%" + map.get("word") + "%\'";
+
+			}
+			
+			String sql = "select count(*) as cnt from tblPlan" + where;
+		
+			
+			stat = conn.createStatement();
+			
+			rs = stat.executeQuery(sql);
+			
+			while (rs.next()) {
+				
+				return rs.getInt("cnt");
+				
+			}
+			
+			
+		} catch (Exception e) {
+			System.out.println("PlanDAO.getTotalCount");
+			e.printStackTrace();
+
+		}
+		return 0;
+	}
+	
+	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~서영 DAO 끝~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	
+}

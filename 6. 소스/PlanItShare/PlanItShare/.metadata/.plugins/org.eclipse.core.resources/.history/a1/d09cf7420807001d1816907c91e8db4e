@@ -1,0 +1,162 @@
+package com.project.tour.user.mypage;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import com.project.tour.DBUtil;
+
+public class MyPageDAO {
+
+	Connection conn;
+	PreparedStatement pstat;
+	Statement stat;
+	ResultSet rs;
+
+	public MyPageDAO() {
+		conn = DBUtil.open();
+	}
+
+	// 서블릿에서 목록 받아오기
+	public ArrayList<MyPageDTO> fList(HashMap<String, String> map) {
+
+		try {
+			
+			
+
+			String sql = String.format("SELECT * From (select a.*, rownum as rnum from vwFood a) where rnum BETWEEN ? and ?");
+
+			
+			pstat = conn.prepareStatement(sql);
+			
+			pstat.setString(1, map.get("begin"));
+			pstat.setString(2, map.get("end"));
+ 
+			stat = conn.createStatement();
+
+			// rs = stat.executeQuery(sql);
+
+			ArrayList<MyPageDTO> fList = new ArrayList<MyPageDTO>();
+
+			while (rs.next()) {
+
+				MyPageDTO dto = new MyPageDTO();
+
+				dto.setName(rs.getString("name"));
+				dto.setAddress(rs.getString("address"));
+				dto.setImage(rs.getString("image")); 
+				dto.setCategory(rs.getString("category"));
+				dto.setLikeCnt(rs.getString("likecnt"));
+				dto.setReviewCnt(rs.getString("reviewcnt"));
+				dto.setReviewAvg(rs.getString("reviewavg"));
+
+				fList.add(dto);
+
+			}
+
+			return fList;
+
+		} catch (Exception e) {
+			System.out.println("MyPageDAO.fList");
+			e.printStackTrace();
+
+		}
+
+		return null;
+	}
+
+	public ArrayList<MyPageDTO> tList(HashMap<String, String> map) {
+		
+		try {
+			
+			String sql = "select * from vwTour";
+			
+			stat = conn.createStatement();
+
+			rs = stat.executeQuery(sql);
+			
+			ArrayList<MyPageDTO> tList = new ArrayList<MyPageDTO>();
+			
+			while (rs.next()) {
+				
+				MyPageDTO dto = new MyPageDTO();
+				
+				dto.setPlacename(rs.getString("placename"));
+				dto.setAddress(rs.getString("address"));
+				dto.setImage(rs.getString("image"));
+				dto.setCategory(rs.getString("category"));
+				dto.setLikeCnt(rs.getString("likecnt"));
+				dto.setReviewCnt(rs.getString("reviewcnt"));
+				dto.setReviewAvg(rs.getString("reviewavg"));
+				
+				tList.add(dto);
+			}
+			
+			return tList;
+			
+		} catch (Exception e) {
+			System.out.println("MyPageDAO.tList");
+			e.printStackTrace();
+
+		}
+		
+		return null;
+		
+	}
+
+	public ArrayList<MyPageDTO> lList(HashMap<String, String> map) {
+
+		try {
+			
+			String sql ="select * from vwLodging";
+			
+			stat = conn.createStatement();
+
+			rs = stat.executeQuery(sql);
+			
+			ArrayList<MyPageDTO> lList = new ArrayList<MyPageDTO>();
+			
+			while (rs.next()) {
+				
+				MyPageDTO dto = new MyPageDTO();
+				dto.setName(rs.getString("name"));
+				dto.setAddress(rs.getString("address"));
+				dto.setImage(rs.getString("image"));
+				dto.setCategory(rs.getString("category"));
+				dto.setLikeCnt(rs.getString("likecnt"));
+				dto.setReviewCnt(rs.getString("reviewcnt"));
+				dto.setReviewAvg(rs.getString("reviewavg"));
+
+				lList.add(dto);
+				
+				
+				
+			}
+			
+			return lList;
+			
+		} catch (Exception e) {
+			System.out.println("MyPageDAO.lList");
+			e.printStackTrace();
+
+		}
+		
+		
+		return null;
+	}
+
+	public int getFoodCnt() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+}
+
+
+
+
+
+

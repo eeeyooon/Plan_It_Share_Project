@@ -1,0 +1,228 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Plan It Share</title>
+<%@ include file="/WEB-INF/views/inc/asset.jsp"%>
+<style>
+#city-submenu {
+      box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+      width: 1400px;
+      height: 50px;
+      display: flex;
+      justify-content: space-around;
+      align-items : center;
+      font-size: 1.2rem;
+   }
+   
+   h2 {
+      text-align: center;
+      margin-bottom: 50px;
+   }
+   
+   #search-box {
+      margin: 50px 0;
+      text-align: center;
+   }
+   
+   #search-box > * {
+      display: inline-block;
+      margin-right: 10px;
+   }
+   
+   #search-box select {
+      width: 100px;
+   }
+   
+   #search-box input[type=text] {
+      width: 300px;
+   }
+   
+   #search-box input[type=button] { 
+      width: 80px;
+   }
+   
+   .fa-solid {
+   		margin-left: 7px;
+   }
+
+   
+   .fa-solid.fa-heart {
+   	  color: tomato;
+   }
+   
+   #list {
+   
+   		width: 1000px;
+   		margin: 0 auto;
+   		
+   }
+   
+   .planlist {
+   		float: left;
+   		margin: 10px;
+   		text-align: center;
+   }
+   
+   
+   .planlist > img {
+   		width: 300px;
+   		height: 200px;
+   		background-size: contain;
+   			
+   		
+   }
+   
+	.planlist::after {
+        content: '';
+        display: block;
+        clear: both;
+    }
+   
+   
+</style>
+</head>
+<body>
+	<main>
+		<%@ include file="/WEB-INF/views/inc/header.jsp"%>
+		<section>
+			<h2>${dto.name}</h2>
+			<div id="city-submenu">
+				<span><a href="">홈</a></span> <span><a
+					href="/planitshare/city/lodging.do?cseq=${dto.seq}">숙소</a></span> <span><a
+					href="">관광명소</a></span> <span><a href="">음식점</a></span> <span><a
+					href="/planitshare/city/cityplanlist.do?cseq=${dto.seq}">${dto.name}일정</a></span>
+			</div>
+
+			<div id="search-box">
+				<form method="GET" action="/planitshare/city/lodgingsearch.do">
+					<table class="search">
+						<tr>
+							<td><select name="column" class="form-control"
+								style="width: 130px;">
+									<option value="content">내용</option>
+									<option value="id">작성자</option>
+							</select></td>
+							<td><input type="text" name="word" class="form-control"
+								required></td>
+							<td>
+								<button class="btn btn-secondary">
+									<i class="fa-solid fa-magnifying-glass"></i>
+								</button>
+							</td>
+							<td>
+								<select class="form-control">
+									<option>최신순</option>
+									<option>관심등록순</option>
+									<option>댓글순</option>
+									<option>조회순</option>
+								</select>
+							</td>
+						</tr>
+					</table>
+				</form>
+			</div>
+
+		<div id="list">
+	         <div class="planlist">
+	            <img src="/planitshare/asset/image/jeju.jpg">
+	            <div class="text">
+	                <div>제주에서 한달살기</div>
+	                <span><i class="fa-solid fa-user"></i>hong</span>
+	                <span><i class="fa-solid fa-eye"></i>11</span>
+	                <span><i class="fa-solid fa-heart"></i>111</span>
+	            </div>
+	         </div>
+	         
+	         <div class="planlist">
+	            <img src="/planitshare/asset/image/busan.jpg">
+	            <div class="text">
+	                <div>제주에서 한달살기</div>
+	                <span><i class="fa-solid fa-user"></i>hong</span>
+	                <span><i class="fa-solid fa-eye"></i>11</span>
+	                <span><i class="fa-solid fa-heart">111</i></span>
+	            </div>
+	         </div>
+
+	         <div class="planlist">
+	            <img src="/planitshare/asset/image/busan.jpg">
+	            <div class="text">
+	                <div>제주에서 한달살기</div>
+	                <span><i class="fa-solid fa-user"></i>hong</span>
+	                <span><i class="fa-solid fa-eye"></i>11</span>
+	                <span><i class="fa-solid fa-heart">111</i></span>
+	            </div>
+	         </div>
+	         
+	         <div class="planlist">
+	            <img src="/planitshare/asset/image/busan.jpg">
+	            <div class="text">
+	                <div>제주에서 한달살기</div>
+	                <span><i class="fa-solid fa-user"></i>hong</span>
+	                <span><i class="fa-solid fa-eye"></i>11</span>
+	                <span><i class="fa-solid fa-heart">111</i></span>
+	            </div>
+	         </div>
+	         
+	         <div class="planlist">
+	            <img src="/planitshare/asset/image/busan.jpg">
+	            <div class="text">
+	                <div>제주에서 한달살기</div>
+	                <span><i class="fa-solid fa-user"></i>hong</span>
+	                <span><i class="fa-solid fa-eye"></i>11</span>
+	                <span><i class="fa-solid fa-heart">111</i></span>
+	            </div>
+	         </div>
+	         
+	         <div class="planlist">
+	            <img src="/planitshare/asset/image/busan.jpg">
+	            <div class="text">
+	                <div>제주에서 한달살기</div>
+	                <span><i class="fa-solid fa-user"></i>hong</span>
+	                <span><i class="fa-solid fa-eye"></i>11</span>
+	                <span><i class="fa-solid fa-heart">111</i></span>
+	            </div>
+	         </div>	
+	         
+	         <div class="planlist">
+	            <img src="/planitshare/asset/image/busan.jpg">
+	            <div class="text">
+	                <div>제주에서 한달살기</div>
+	                <span><i class="fa-solid fa-user"></i>hong</span>
+	                <span><i class="fa-solid fa-eye"></i>11</span>
+	                <span><i class="fa-solid fa-heart"></i>111</span>
+	            </div>
+	         </div>  
+	         
+	         <div class="planlist">
+	            <img src="/planitshare/asset/image/busan.jpg">
+	            <div class="text">
+	                <div>제주에서 한달살기</div>
+	                <span><i class="fa-solid fa-user"></i>hong</span>
+	                <span><i class="fa-solid fa-eye"></i>11</span>
+	                <span><i class="fa-solid fa-heart">111</i></span>
+	            </div>
+	         </div> 
+	         
+	        <div class="planlist">
+	            <img src="/planitshare/asset/image/busan.jpg">
+	            <div class="text">
+	                <div>제주에서 한달살기</div>
+	                <span><i class="fa-solid fa-user"></i>hong</span>
+	                <span><i class="fa-solid fa-eye"></i>11</span>
+	                <span><i class="fa-solid fa-heart">111</i></span>
+	            </div>
+	         </div>      	      	         
+        </div>
+			
+
+
+
+		</section>
+	</main>
+
+</body>
+</html>

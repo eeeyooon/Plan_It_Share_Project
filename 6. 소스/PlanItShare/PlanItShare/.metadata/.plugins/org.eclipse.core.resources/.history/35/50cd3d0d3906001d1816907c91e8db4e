@@ -1,0 +1,43 @@
+package com.project.tour.city.cityplan;
+
+import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+
+@WebServlet("/cityplan/CityPlanList.do")
+public class CityPlanList extends HttpServlet {
+
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+		req.setCharacterEncoding("UTF-8");
+
+		String cseq = req.getParameter("cseq");
+
+		if (cseq == "1") { // 여행지가 제주일경우
+
+			RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/views/city/cityplan/cityplanlist.jsp");
+
+			dispatcher.forward(req, resp);
+
+		} else {
+			
+
+			RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/views/city/citydetail.jsp");
+			dispatcher.forward(req, resp);
+		}
+
+	}
+
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+	}
+
+}

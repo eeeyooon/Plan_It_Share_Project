@@ -1,0 +1,149 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Plan It Share</title>
+<%@ include file="/WEB-INF/views/inc/asset.jsp"%>
+<style>
+#city-submenu {
+	box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+	width: 1400px;
+	height: 50px;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	font-size: 1.2rem;
+}
+
+h2 {
+	text-align: center;
+	margin-bottom: 50px;
+}
+
+#search-box {
+	margin: 50px 0;
+	text-align: center;
+}
+
+#search-box>* {
+	display: inline-block;
+	margin-right: 10px;
+}
+
+#search-box select {
+	width: 100px;
+}
+
+#search-box input[type=text] {
+	width: 300px;
+}
+
+#search-box input[type=button] { {
+	width: 80px;
+}
+
+
+</style>
+</head>
+<body>
+	<main>
+		<%@ include file="/WEB-INF/views/inc/header.jsp"%>
+		<section>
+
+			<h2>제주</h2>
+			<div id="city-submenu">
+				<span>홈</span> <span>숙소</span> <span>관광명소</span> <span>음식점</span> <span>제주일정</span>
+			</div>
+
+			<div id="search-box">
+				<select class="form-control">
+					<option>제목</option>
+					<option>내용</option>
+					<option>작성자</option>
+				</select> <input type="text" name="" id="" class="form-control" />
+				<button type="button" class="btn btn-secondary">
+					<i class="fa-solid fa-magnifying-glass"></i>
+				</button>
+
+				<select class="form-control">
+					<option>최신순</option>
+					<option>관심등록순</option>
+					<option>댓글순</option>
+					<option>조회순</option>
+				</select>
+			</div>
+			
+			
+			
+			<table border="1">
+			    <tr>
+			    <th>
+			    <img src="/planitshare/asset/image/busan.jpg">
+			    <div>여행사진</div>
+				<div>제주도 한달살기 (49)</div>
+				<div>hong 12032 3053</div>
+			    </th>
+			    <th>
+			    <img src="/planitshare/asset/image/busan.jpg">
+			    <div>여행사진</div>
+				<div>제주도 한달살기 (49)</div>
+				<div>hong 12032 3053</div>
+			    </th>
+			    <th>
+			    <img src="/planitshare/asset/image/busan.jpg">
+			    <div>여행사진</div>
+				<div>제주도 한달살기 (49)</div>
+				<div>hong 12032 3053</div>
+			    </th>
+			    </tr>
+			    <tr>
+			    <th>
+			    <img src="/planitshare/asset/image/busan.jpg">
+			    <div>여행사진</div>
+				<div>제주도 한달살기 (49)</div>
+				<div>hong 12032 3053</div>
+			    </th>
+			    <th>
+			    <img src="/planitshare/asset/image/busan.jpg">
+			    <div>여행사진</div>
+				<div>제주도 한달살기 (49)</div>
+				<div>hong 12032 3053</div>
+			    </th>
+			    <th>
+			    <img src="/planitshare/asset/image/busan.jpg">
+			    <div>여행사진</div>
+				<div>제주도 한달살기 (49)</div>
+				<div>hong 12032 3053</div>
+			    </th>
+			    </tr>
+			    <tr>
+			    <th>
+			    <img src="/planitshare/asset/image/busan.jpg">
+			    <div>여행사진</div>
+				<div>제주도 한달살기 (49)</div>
+				<div>hong 12032 3053</div>
+			    </th>
+			    <th>
+			    <img src="/planitshare/asset/image/busan.jpg">
+			    <div>여행사진</div>
+				<div>제주도 한달살기 (49)</div>
+				<div>hong 12032 3053</div>
+				<th>
+			    <img src="/planitshare/asset/image/busan.jpg">
+			    <div>여행사진</div>
+				<div>제주도 한달살기 (49)</div>
+				<div>hong 12032 3053</div>
+			    </th>
+			    </tr>
+			</table>
+
+
+
+		</section>
+	</main>
+
+</body>
+</html>

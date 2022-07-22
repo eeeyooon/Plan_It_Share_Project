@@ -1,0 +1,134 @@
+package com.project.tour.user.mypage;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet("/mypage/MyLikePlace.do")
+public class MyLikePlace extends HttpServlet {
+
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
+		
+		// 음식점 관심목록 fList.java
+		// 1. DB작업
+		// 2. 결과
+		// 3. JSP 호출 및 결과 전달
+		
+		//1. + 2.
+		MyPageDAO dao = new MyPageDAO();
+		
+		// 식당
+		ArrayList<MyPageDTO> fList = dao.fList();
+		req.setAttribute("fList", fList);
+		
+		// 관광지
+		ArrayList<MyPageDTO> tList = dao.tList();
+		req.setAttribute("tList", tList);
+		
+		// 숙소
+		ArrayList<MyPageDTO> lList = dao.lList();
+		req.setAttribute("lList", lList);
+		
+		
+		
+		
+		String distint = "food";
+		int page = 1;
+		
+		if (req.getParameter("distint") != null) {
+			distint = req.getParameter("distint");
+		}
+		
+		if (req.getParameter("page") != null) {
+			page = Integer.parseInt(req.getParameter("page"));
+		}
+		
+		
+		if (distint.equals("food")) { //음식점일 경우
+			req.setAttribute("distint", "food");
+			
+		}else if (distint.equals("tour")) { // 관광명소일 경우
+			req.setAttribute("distint", "tour");
+			
+		}else { // 숙소일 경우
+			req.setAttribute("distint", "lodging");
+		}
+		
+		
+		RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/views/user/mypage/mylikeplace.jsp");
+
+		doTemp(req, resp);
+		
+		
+
+
+	}
+
+
+	private void doTemp(HttpServletRequest req, HttpServletResponse resp) {
+		
+		HashMap<String,String> map = new HashMap<String,String>();
+
+
+        //해시 태그 클릭
+        String tag = req.getParameter("tag");
+        map.put("tag", tag);
+
+
+
+
+        //페이징
+        int nowPage = 0;     //현재 페이지 번호(= page)
+        int begin = 0;
+        int end = 0;
+        int pageSize = 10;    //한페이지 당 출력할 게시물 수
+
+        int totalCount = 0; //총 게시물 수
+        int totalPage = 0;    //총 페이지 수
+
+
+
+        //list.do > list.do?page=1
+        //list.do?page=3
+
+        String page = req.getParameter("page");
+
+        if (page == null || page == "") nowPage = 1;
+        else nowPage = Integer.parseInt(page);
+
+
+        //nowPage > 현재 보게될 페이지 번호
+        //list.do?page=1 > where rnum between 1 and 10
+        //list.do?page=2 > where rnum between 11 and 20
+        //list.do?page=3 > where rnum between 21 and 30
+
+        begin = ((nowPage - 1) * pageSize) + 1;
+        end = begin + pageSize - 1;
+
+
+        map.put("begin", begin + "");
+        map.put("end", end + "");
+		
+		
+	}
+
+
+
+
+
+
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+	}
+
+}

@@ -1,0 +1,432 @@
+package com.project.tour.user.mypage;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import com.project.tour.DBUtil;
+import com.project.tour.dto.MyPageDTO;
+
+public class MyPageDAO {
+
+	Connection conn;
+	PreparedStatement pstat;
+	Statement stat;
+	ResultSet rs;
+
+	public MyPageDAO() {
+		conn = DBUtil.open();
+	}
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  창현  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+	// 서블릿에서 음식점 목록 받아오기
+	public ArrayList<MyPageDTO> fList(HashMap<String, String> map) {
+
+		try {
+
+			System.out.println(map);
+
+			String sql = String
+					.format("SELECT * From (select a.*, rownum as rnum from vwFood a) where rnum BETWEEN ? and ?");
+
+			pstat = conn.prepareStatement(sql);
+
+			pstat.setString(1, map.get("begin"));
+			pstat.setString(2, map.get("end"));
+
+			stat = conn.createStatement();
+
+			rs = pstat.executeQuery();
+
+			ArrayList<MyPageDTO> fList = new ArrayList<MyPageDTO>();
+
+			while (rs.next()) {
+
+				MyPageDTO dto = new MyPageDTO();
+
+				dto.setName(rs.getString("name"));
+				dto.setAddress(rs.getString("address"));
+				dto.setImage(rs.getString("image"));
+				dto.setCategory(rs.getString("category"));
+				dto.setLikeCnt(rs.getString("likecnt"));
+				dto.setReviewCnt(rs.getString("reviewcnt"));
+				dto.setReviewAvg(rs.getString("reviewavg"));
+
+				fList.add(dto);
+
+			}
+
+			return fList;
+
+		} catch (Exception e) {
+			System.out.println("MyPageDAO.fList");
+			e.printStackTrace();
+
+		}
+
+		return null;
+	}
+
+	// 서블릿에서 여행지 목록 받아오기
+	public ArrayList<MyPageDTO> tList(HashMap<String, String> map) {
+
+		try {
+
+			String sql = "SELECT * From (select b.*, rownum as rnum from vwTour b) where rnum BETWEEN ? and ?";
+
+			pstat = conn.prepareStatement(sql);
+
+			pstat.setString(1, map.get("begin"));
+			pstat.setString(2, map.get("end"));
+
+			stat = conn.createStatement();
+
+			rs = pstat.executeQuery();
+
+			ArrayList<MyPageDTO> tList = new ArrayList<MyPageDTO>();
+
+			while (rs.next()) {
+
+				MyPageDTO dto = new MyPageDTO();
+
+				dto.setPlacename(rs.getString("placename"));
+				dto.setAddress(rs.getString("address"));
+				dto.setImage(rs.getString("image"));
+				dto.setCategory(rs.getString("category"));
+				dto.setLikeCnt(rs.getString("likecnt"));
+				dto.setReviewCnt(rs.getString("reviewcnt"));
+				dto.setReviewAvg(rs.getString("reviewavg"));
+
+				tList.add(dto);
+			}
+
+			return tList;
+
+		} catch (Exception e) {
+			System.out.println("MyPageDAO.tList");
+			e.printStackTrace();
+
+		}
+
+		return null;
+
+	}
+
+	// 서블릿에서 숙소 목록 받아오기
+	public ArrayList<MyPageDTO> lList(HashMap<String, String> map) {
+
+		try {
+
+			String sql = "SELECT * From (select c.*, rownum as rnum from vwLodging c) where rnum BETWEEN ? and ?";
+
+			pstat = conn.prepareStatement(sql);
+
+			pstat.setString(1, map.get("begin"));
+			pstat.setString(2, map.get("end"));
+
+			stat = conn.createStatement();
+
+			rs = pstat.executeQuery();
+
+			ArrayList<MyPageDTO> lList = new ArrayList<MyPageDTO>();
+
+			while (rs.next()) {
+
+				MyPageDTO dto = new MyPageDTO();
+				dto.setName(rs.getString("name"));
+				dto.setAddress(rs.getString("address"));
+				dto.setImage(rs.getString("image"));
+				dto.setCategory(rs.getString("category"));
+				dto.setLikeCnt(rs.getString("likecnt"));
+				dto.setReviewCnt(rs.getString("reviewcnt"));
+				dto.setReviewAvg(rs.getString("reviewavg"));
+
+				lList.add(dto);
+
+			}
+
+			return lList;
+
+		} catch (Exception e) {
+			System.out.println("MyPageDAO.lList");
+			e.printStackTrace();
+
+		}
+
+		return null;
+	}
+
+	// 음식점 총 갯수 가져오는 메소드
+	public int getFoodCnt() {
+
+		try {
+
+			stat = conn.createStatement();
+
+			String sql = "select count(*) as cnt from tblfood";
+
+			rs = stat.executeQuery(sql);
+
+			int result = 0;
+
+			if (rs.next()) {
+				result = rs.getInt("cnt");
+			}
+
+			rs.close();
+			stat.close();
+
+			return result;
+
+		} catch (Exception e) {
+			System.out.println("MyPageDAO.getFoodCnt");
+			e.printStackTrace();
+
+		}
+		return 0;
+	}
+	
+	// 여행장소 총 갯수 가져오는 메소드
+	public int getTourCnt() {
+		try {
+
+			stat = conn.createStatement();
+
+			String sql = "select count(*) as cnt from tblTour";
+
+			rs = stat.executeQuery(sql);
+
+			int result = 0;
+
+			if (rs.next()) {
+				result = rs.getInt("cnt");
+			}
+
+			rs.close();
+			stat.close();
+
+			return result;
+
+		} catch (Exception e) {
+			System.out.println("MyPageDAO.getTourCnt");
+			e.printStackTrace();
+
+		}
+		return 0;
+	}
+	
+	// 숙소 총 갯수 가져오는 메소드
+	public int getLodgingCnt() {
+		try {
+
+			stat = conn.createStatement();
+
+			String sql = "select count(*) as cnt from tblLodging";
+
+			rs = stat.executeQuery(sql);
+
+			int result = 0;
+
+			if (rs.next()) {
+				result = rs.getInt("cnt");
+				System.out.println(result);
+			}
+
+			rs.close();
+			stat.close();
+
+			return result;
+
+		} catch (Exception e) {
+			System.out.println("MyPageDAO.getLodgingCnt");
+			e.printStackTrace();
+
+		}
+		return 0;
+	}
+	
+	// 서블릿에서 관심 여행일정 받아오기
+	public ArrayList<MyPageDTO> lpList(HashMap<String, String> map) {
+
+		try {
+
+			String sql = String.format("SELECT * From (SELECT a.*, rownum as rnum From vwLikePlan a) where rnum BETWEEN ? and ?");
+
+			pstat = conn.prepareStatement(sql);
+
+			pstat.setString(1, map.get("begin"));
+			pstat.setString(2, map.get("end"));
+
+			stat = conn.createStatement();
+
+			rs = pstat.executeQuery();
+
+			ArrayList<MyPageDTO> lpList = new ArrayList<MyPageDTO>();
+
+			while (rs.next()) {
+
+				MyPageDTO dto = new MyPageDTO();
+
+				dto.setImage(rs.getString("image"));
+				dto.setTitle(rs.getString("title"));
+				dto.setName(rs.getString("name"));
+				dto.setReadcount(rs.getString("readcount"));
+				dto.setLikeCnt(rs.getString("likecnt"));
+
+				lpList.add(dto);
+				
+			}
+
+			return lpList;
+
+		} catch (Exception e) {
+			System.out.println("MyPageDAO.tList");
+			e.printStackTrace();
+
+		}
+
+		return null;
+		
+		
+	}
+	
+	// 관심 여행지 총 갯수 불러오는 메소드
+	public int getLPCnt() {
+
+		try {
+
+			stat = conn.createStatement();
+
+			String sql = "select count(*) as cnt from tblLikePlan";
+
+			rs = stat.executeQuery(sql);
+
+			int result = 0;
+
+			if (rs.next()) {
+				result = rs.getInt("cnt");
+				System.out.println(result);
+			}
+
+			rs.close();
+			stat.close();
+
+			return result;
+
+		} catch (Exception e) {
+			System.out.println("MyPageDAO.getLodgingCnt");
+			e.printStackTrace();
+
+		}
+		
+		return 0;
+	}
+
+	
+	// 서블릿에서 내 일정 받아오기
+	public ArrayList<MyPageDTO> mpList(HashMap<String, String> map) {
+
+		try {
+			
+			
+			String sql = String.format("SELECT * From (SELECT a.*, rownum as rnum From vwMyPlan a) where rnum BETWEEN ? and ?");
+			
+			pstat = conn.prepareStatement(sql);		
+			
+			pstat.setString(1, map.get("begin"));
+            pstat.setString(2, map.get("end"));
+
+            stat = conn.createStatement();
+
+            rs = pstat.executeQuery();
+            
+           ArrayList<MyPageDTO> mpList = new ArrayList<MyPageDTO>();
+           
+           while (rs.next()) {
+
+               MyPageDTO dto = new MyPageDTO();
+
+               dto.setImage(rs.getString("image"));
+               dto.setTitle(rs.getString("title"));
+               dto.setName(rs.getString("name"));
+               dto.setReadcount(rs.getString("readcount"));
+               dto.setLikeCnt(rs.getString("likecnt"));
+
+               mpList.add(dto);
+
+           }
+            
+           return mpList;
+            
+		} catch (Exception e) {
+			System.out.println("MyPageDAO.mpList");
+			e.printStackTrace();
+
+		}
+		
+		
+		
+		
+		return null;
+	}
+
+	// 내 일정 전체 갯수 불러오는 메소드
+	public int getmpCnt() {
+		
+		try {
+
+			stat = conn.createStatement();
+
+			String sql = "select count(*) as cnt from tblPlanUser";
+
+			rs = stat.executeQuery(sql);
+
+			int result = 0;
+
+			if (rs.next()) {
+				result = rs.getInt("cnt");
+				System.out.println(result);
+			}
+
+			rs.close();
+			stat.close();
+
+			return result;
+
+		} catch (Exception e) {
+			System.out.println("MyPageDAO.getLodgingCnt");
+			e.printStackTrace();
+
+		}
+		
+		return 0;
+	}
+
+	
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  창현  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+	
+	
+
+	
+	
+	
+	
+
+	
+	
+	
+
+	
+	
+	
+
+	
+	
+	
+	
+	
+	
+	
+}

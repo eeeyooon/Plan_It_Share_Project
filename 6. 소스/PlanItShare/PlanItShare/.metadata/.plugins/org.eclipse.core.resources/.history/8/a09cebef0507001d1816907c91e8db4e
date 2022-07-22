@@ -1,0 +1,93 @@
+package com.project.tour.user.mypage;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet("/mypage/MyLikePlace.do")
+public class MyLikePlace extends HttpServlet {
+
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+		// 음식점 관심목록 fList.java
+		// 1. DB작업
+		// 2. 결과
+		// 3. JSP 호출 및 결과 전달
+
+		// 1. + 2.
+		MyPageDAO dao = new MyPageDAO();
+
+		// 식당
+		ArrayList<MyPageDTO> fList = dao.fList();
+		req.setAttribute("fList", fList);
+
+		// 관광지
+		ArrayList<MyPageDTO> tList = dao.tList();
+		req.setAttribute("tList", tList);
+
+		// 숙소
+		ArrayList<MyPageDTO> lList = dao.lList();
+		req.setAttribute("lList", lList);
+
+		String distint = "food";
+
+		if (req.getParameter("distint") != null) {
+			distint = req.getParameter("distint");
+		}
+
+
+		if (distint.equals("food")) { // 음식점일 경우
+			req.setAttribute("distint", "food");
+
+		} else if (distint.equals("tour")) { // 관광명소일 경우
+			req.setAttribute("distint", "tour");
+
+		} else { // 숙소일 경우
+			req.setAttribute("distint", "lodging");
+		}
+
+		
+		HashMap<String,String> map = new HashMap<String,String>();
+		// 페이징
+		int nowPage = 0; // 현재 페이지 번호(= page)
+		int begin = 0;
+		int end = 0;
+		int pageSize = 10; // 한페이지 당 출력할 게시물 수
+
+		int totalCount = 0; // 총 게시물 수
+		int totalPage = 0; // 총 페이지 수
+
+		String page = req.getParameter("page");
+
+		if (page == null || page == "")
+			nowPage = 1;
+		else
+			nowPage = Integer.parseInt(page);
+
+		begin = ((nowPage - 1) * pageSize) + 1;
+		end = begin + pageSize - 1;
+
+		map.put("begin", begin + "");
+		map.put("end", end + "");
+
+		RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/views/user/mypage/mylikeplace.jsp");
+
+		dispatcher.forward(req, resp);
+	}
+
+
+
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+	}
+
+}

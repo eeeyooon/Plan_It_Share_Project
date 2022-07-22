@@ -1,0 +1,28 @@
+package com.project.tour.dto;
+
+import lombok.Data;
+
+@Data
+public class PlanDTO {
+
+	private String seq;
+	private String cseq;
+	private String regdate;
+	private String startdate;
+	private String enddate;
+	private String title;
+	private String content;
+	private String author;
+
+	private String day;
+
+	private String readCount;
+	private String StartDate;
+	private String EndDate;
+
+	private String name;
+	private String image;
+	private String likecnt;
+	private String reviewcnt;
+
+}

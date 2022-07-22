@@ -1,0 +1,121 @@
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+* { 
+font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
+}
+
+body, span, div, h1, h2, h3, h4, h5, h6, p, a {
+    font-family: 'Pretendard';
+}
+
+header {
+    width: 100%;
+    position: fixed;
+    height: 100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 40px 0 40px;
+    background-color: white;
+    z-index: 100;
+}
+
+header > ul {
+    margin: 0 auto;
+    bottom: 5px;
+}
+
+header > ul > li{
+    list-style: none;
+    display: inline;
+    margin-right: 100px;
+}
+
+header > ul > li > a {
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+}
+
+header > ul > li > a:hover {
+    color: #6DA2DF;
+    transition: .5s;
+}
+
+#header-logo > a > img {
+    width: 100px;
+    margin-top: 0;
+}
+
+#header-menu {
+    font-size: 1.5rem;
+}
+
+#before-login > a, #header-profile a {
+    margin-left: 10px;
+    text-decoration: none;
+    color: dimgray;
+}
+
+#header-profile {
+    display: flex;
+    width: 260px;
+    padding-right: 10px;
+}
+
+#header-profile > #image-container{
+    width: 50px;
+    height: 50px;
+    border-radius: 50% 50%;
+    overflow: hidden;
+    display: inline-block;
+}
+
+#header-profile > #image-container > #profile {
+    width: 50px;
+    height: auto;
+    object-fit: cover;
+}
+
+#header-profile > #login-info {
+    align-items: center;
+}
+
+#before-login {
+   width: 200px;
+}
+
+
+#login-info > #name {
+    margin-left: 10px;
+}
+
+a {
+   color: black;
+   text-decoration: none;
+}
+
+a:hover {
+   color: #6DA2DF;
+   text-decoration: none;
+   transition: .5s;
+}
+
+main {
+   display: flex;
+}
+
+section {
+   margin: 200px auto;
+}
+
+
+header > div#login  img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+
+
+

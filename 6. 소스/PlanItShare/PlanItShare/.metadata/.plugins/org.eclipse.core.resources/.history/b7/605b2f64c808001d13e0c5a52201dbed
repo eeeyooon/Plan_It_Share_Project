@@ -1,0 +1,76 @@
+package com.project.tour.dto;
+
+import lombok.Data;
+
+@Data
+public class PlanDTO {
+
+	private String seq;
+	private String cseq;
+	private String regdate;
+	private String startdate;
+	private String enddate;
+	private String title;
+	private String content;
+	private String author;
+
+	private String day;
+
+	private String readCount;
+	private String startDate;
+	private String endDate;
+
+	private String name;
+	private String image;
+	private String likecnt;
+	private String reviewcnt;
+
+	private String city;
+
+	private String readcount;
+
+	private String authorProfile;
+
+	private String likeCnt;
+
+	public String getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
+
+	public String getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
+
+	public String getReadcount() {
+		return readcount;
+	}
+
+	public void setReadcount(String readcount) {
+		this.readcount = readcount;
+	}
+
+	public String getLikeCnt() {
+		return likeCnt;
+	}
+
+	public void setLikeCnt(String likeCnt) {
+		this.likeCnt = likeCnt;
+	}
+
+	
+	
+	
+	
+	
+	
+	
+	
+}
