@@ -139,10 +139,7 @@
 > 일정 상세보기, 친구와 일정 공유하기
 <br>
 
-![일정상세(일정 정보)](https://user-images.githubusercontent.com/102462534/180640843-462d740d-afd6-4f78-8865-c12fffd2a573.png)
-<br>
-
-![일정상세(일차별 장소)](https://user-images.githubusercontent.com/102462534/180640844-4ecf57cd-71fd-4321-8c77-868cfc5bae0f.png)
+![지도](https://user-images.githubusercontent.com/102462534/182503219-98620170-105a-465a-8a5f-3757e9122ea3.gif)
 
 <br>
 <br>
